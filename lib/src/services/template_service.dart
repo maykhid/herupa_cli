@@ -15,8 +15,21 @@ class TemplateService {
   /// Create default template for a Flutter app
   Future<void> createNewAppTemplate({required String workingDirectory}) async {
     await _createAppFolders(workingDirectory: workingDirectory);
-
     await _createAppFiles(workingDirectory: workingDirectory);
+  }
+
+  Future<void> createFeatureTemplate({
+    required String featureName,
+    String? workingDirectory,
+  }) async {
+    await _createFeatureFolders(
+      featureName: featureName,
+      workingDirectory: workingDirectory,
+    );
+    await _createFeatureFiles(
+      workingDirectory: workingDirectory!,
+      featureName: featureName,
+    );
   }
 
   Future<void> _createAppFolders({required String workingDirectory}) async {
@@ -31,9 +44,8 @@ class TemplateService {
       await Directory(path).create();
     }
 
-    _log.herupaOutput(
+    _log.success(
       message: '\nFolders generated successfully 🥂',
-      isBold: true,
     );
   }
 
@@ -45,7 +57,7 @@ class TemplateService {
 
     for (final entry in kCompiledTemplates.entries) {
       final path = entry.key;
-      final content = entry.value as String;
+      final content = entry.value;
 
       final template = Template(content);
       var version = '5.1.0'; // default version
@@ -69,14 +81,81 @@ class TemplateService {
       );
     }
 
-    _log.herupaOutput(
+    _log.success(
       message: '\nFiles generated successfully 🥂',
-      isBold: true,
     );
   }
 
   String? _getVersion(String workingDirectory) {
     return PubspecService(workingDirectory: workingDirectory)
         .getDevDependencyVersion('very_good_analysis');
+  }
+
+  Future<void> _createFeatureFolders({
+    required String featureName,
+    String? workingDirectory,
+  }) async {
+    final dir = workingDirectory ?? Directory.current.path;
+    final folderTemplate = FolderTemplate(workingDirectory: dir);
+
+    _log.herupaOutput(
+      message: '\nCreating feature $featureName layers...',
+      isBold: true,
+    );
+    for (final i in folderTemplate
+        .customFeatureFolderPaths(featureName: featureName)
+        .entries) {
+      await Directory(i.value).create(recursive: true);
+      _log.herupaOutput(
+        message: '\nCreated $featureName ${i.key} folder at ${i.value}',
+        isBold: true,
+      );
+    }
+
+    _log.success(
+      message: '\nCreating feature $featureName layers. Done🥂',
+    );
+  }
+
+  Future<void> _createFeatureFiles({
+    required String workingDirectory,
+    required String featureName,
+  }) async {
+    _log.herupaOutput(
+      message: '\nGenerating feature $featureName files...',
+      isBold: true,
+    );
+
+    final pubservice = PubspecService(workingDirectory: workingDirectory);
+    final packageName = pubservice.appName;
+    for (final entry in kFeatureCompiledTemplates.entries) {
+      final path = entry.key;
+      final content = entry.value;
+
+      final templateContent = Template(content);
+      final templatePath = Template(path);
+
+      final output = templateContent.renderString({
+        'feature': featureName.pascalCase,
+        'feature_param_case': featureName.camelCase,
+        'feature_path_case': featureName.snakeCase,
+        'packageName': packageName,
+      });
+
+      // print('template_serv'.case);
+
+      final templatePathOutput = templatePath.renderString({
+        'feature_path_case': featureName.snakeCase,
+      });
+
+      await _fileService.writeStringFile(
+        file: File('$workingDirectory/$templatePathOutput'),
+        fileContent: output,
+      );
+    }
+
+    _log.success(
+      message: '\nDone generating feature $featureName files 🥂',
+    );
   }
 }

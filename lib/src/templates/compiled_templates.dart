@@ -765,6 +765,48 @@ linter:
     public_member_api_docs: false
 ''';
 
+/// Feature template
+const kFooFeatureImplPath = 'lib/app/features/{{feature_path_case}}/data/foo_{{feature_path_case}}_impl.dart';
+const kFooFeatureImpl = '''
+import 'package:{{packageName}}/app/features/{{feature_path_case}}/data/{{feature_path_case}}_interface.dart';
+import 'package:injectable/injectable.dart';
+
+@Singleton(as: {{feature}}Interface)
+class Foo{{feature}}Impl extends {{feature}}Interface {}
+''';
+const kFeatureInterfacePath = 'lib/app/features/{{feature_path_case}}/data/{{feature_path_case}}_interface.dart';
+const kFeatureInterface = '''
+abstract class {{feature}}Interface {
+
+}
+''';
+const kFeatureRepositoryPath = 'lib/app/features/{{feature_path_case}}/data/{{feature_path_case}}_repository.dart';
+const kFeatureRepository = '''
+import 'package:{{packageName}}/app/features/{{feature_path_case}}/data/{{feature_path_case}}_interface.dart';
+import 'package:injectable/injectable.dart';
+
+@singleton
+class {{feature}}Repository {
+  {{feature}}Repository({required {{feature}}Interface {{feature_param_case}}Interface})
+      : _{{feature_param_case}}Interface = {{feature_param_case}}Interface;
+
+  final {{feature}}Interface _{{feature_param_case}}Interface;
+}
+''';
+const kFeatureScreenPath = 'lib/app/features/{{feature_path_case}}/ui/views/screens/{{feature_path_case}}_screen.dart';
+const kFeatureScreen = '''
+import 'package:flutter/material.dart';
+
+class {{feature}}Screen extends StatelessWidget {
+  const {{feature}}Screen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+''';
+
 // const kDIContent = '''
 //         import 'package:get_it/get_it.dart';
 //         import 'package:injectable/injectable.dart';

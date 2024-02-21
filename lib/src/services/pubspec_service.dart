@@ -23,6 +23,8 @@ class PubspecService {
 
   dynamic get getAllDevDependencies => pubspecYaml['dev_dependencies'];
 
+  dynamic get appName => pubspecYaml['name'] as String;
+
   bool hasDependency(String dependencyName) =>
       (getAlldependencies as Map).containsKey(dependencyName);
 

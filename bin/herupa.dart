@@ -1,17 +1,18 @@
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
-import 'package:herupa_cli/src/command/create/create_app_command.dart';
+import 'package:herupa_cli/src/command/create/create_command.dart';
 import 'package:herupa_cli/src/services/log_service.dart';
 
 void main(List<String> arguments) {
-
   final log = ColorizedLogService();
 
   final runner = CommandRunner<dynamic>(
     'herupa',
     'A command line interface for setting up my custom Flutter application',
-  )..addCommand(CreateAppCommand());
+  )..addCommand(
+      CreateCommand(),
+    );
 
   log.success(
     message: '''

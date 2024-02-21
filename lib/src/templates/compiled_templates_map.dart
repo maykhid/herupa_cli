@@ -1,6 +1,6 @@
 import 'package:herupa_cli/src/templates/compiled_templates.dart';
 
-Map<String, dynamic> kCompiledTemplates = {
+const Map<String, String> kCompiledTemplates = {
   // path : content
   kMainPath: kMainContent,
   kAppPath: kAppContent,
@@ -25,4 +25,11 @@ Map<String, dynamic> kCompiledTemplates = {
   kAppNavigationConfigPath: kAppNavigationConfig,
   kAppRoutesPath: kAppRoutes,
   kAnalysisOptionsPath: kAnalysisOptions,
+};
+
+const Map<String, String>  kFeatureCompiledTemplates = {
+  kFooFeatureImplPath: kFooFeatureImpl,
+  kFeatureInterfacePath: kFeatureInterface,
+  kFeatureRepositoryPath: kFeatureRepository,
+  kFeatureScreenPath: kFeatureScreen,
 };
