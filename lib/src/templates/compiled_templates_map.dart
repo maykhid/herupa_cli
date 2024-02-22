@@ -4,6 +4,7 @@ const Map<String, String> kCompiledTemplates = {
   // path : content
   kMainPath: kMainContent,
   kAppPath: kAppContent,
+  kPubspecPath: kPubspec,
   kAuthInterfacePath: kAuthInterface,
   kAuthImplPath: kAuthImpl,
   kAuthRepositoryPath: kAuthRepository,
@@ -18,6 +19,9 @@ const Map<String, String> kCompiledTemplates = {
   kHomeScreenPath: kHomeScreen,
   kAppButtonPath: kAppButton,
   kAppDialogPath: kAppDialog,
+  kAppImagesPath: kAppImages,
+  kAppIconsPath: kAppIcons,
+  kAppColorsPath: kAppColors,
   kSizedContextPath: kSizedContext,
   kResultPath: kResult,
   kDiPath: kDi,

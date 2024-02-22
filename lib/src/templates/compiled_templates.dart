@@ -28,6 +28,13 @@ setup() async {
 
   ''';
 
+const kPubspecPath = 'pubspec.yaml';
+const kPubspec = '''
+  assets:
+    - assets/images/
+    - assets/icons/
+''';
+
 const kAppPath = 'lib/app/app.dart';
 const kAppContent = '''
 import 'package:flutter/material.dart';
@@ -611,6 +618,31 @@ const kAppDialog = '''
 
 ''';
 
+/// -- asset
+const kAppImagesPath = 'lib/app/shared/ui/app_images.dart';
+const kAppImages = '''
+class AppImages {
+  static const String dummyImage =
+      '';
+}
+''';
+
+const kAppIconsPath = 'lib/app/shared/ui/app_icons.dart';
+const kAppIcons = '''
+class AppIcons {
+  static const icActivity = '';
+}
+''';
+
+const kAppColorsPath = 'lib/app/shared/ui/app_colors.dart';
+const kAppColors = '''
+import 'package:flutter/material.dart';
+
+class AppColors {
+  static const Color black = Color(0xFF222222);
+}
+''';
+
 /// --- utils
 const kSizedContextPath = 'lib/app/shared/utils/sized_context.dart';
 const kSizedContext = '''
@@ -766,7 +798,8 @@ linter:
 ''';
 
 /// Feature template
-const kFooFeatureImplPath = 'lib/app/features/{{feature_path_case}}/data/foo_{{feature_path_case}}_impl.dart';
+const kFooFeatureImplPath =
+    'lib/app/features/{{feature_path_case}}/data/foo_{{feature_path_case}}_impl.dart';
 const kFooFeatureImpl = '''
 import 'package:{{packageName}}/app/features/{{feature_path_case}}/data/{{feature_path_case}}_interface.dart';
 import 'package:injectable/injectable.dart';
@@ -774,13 +807,15 @@ import 'package:injectable/injectable.dart';
 @Singleton(as: {{feature}}Interface)
 class Foo{{feature}}Impl extends {{feature}}Interface {}
 ''';
-const kFeatureInterfacePath = 'lib/app/features/{{feature_path_case}}/data/{{feature_path_case}}_interface.dart';
+const kFeatureInterfacePath =
+    'lib/app/features/{{feature_path_case}}/data/{{feature_path_case}}_interface.dart';
 const kFeatureInterface = '''
 abstract class {{feature}}Interface {
 
 }
 ''';
-const kFeatureRepositoryPath = 'lib/app/features/{{feature_path_case}}/data/{{feature_path_case}}_repository.dart';
+const kFeatureRepositoryPath =
+    'lib/app/features/{{feature_path_case}}/data/{{feature_path_case}}_repository.dart';
 const kFeatureRepository = '''
 import 'package:{{packageName}}/app/features/{{feature_path_case}}/data/{{feature_path_case}}_interface.dart';
 import 'package:injectable/injectable.dart';
@@ -793,7 +828,8 @@ class {{feature}}Repository {
   final {{feature}}Interface _{{feature_param_case}}Interface;
 }
 ''';
-const kFeatureScreenPath = 'lib/app/features/{{feature_path_case}}/ui/views/screens/{{feature_path_case}}_screen.dart';
+const kFeatureScreenPath =
+    'lib/app/features/{{feature_path_case}}/ui/views/screens/{{feature_path_case}}_screen.dart';
 const kFeatureScreen = '''
 import 'package:flutter/material.dart';
 

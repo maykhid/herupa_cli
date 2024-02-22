@@ -75,10 +75,19 @@ class TemplateService {
         'vga_version': version,
       });
 
-      await _fileService.writeStringFile(
-        file: File('$workingDirectory/$path'),
-        fileContent: output,
-      );
+      // add assets to pub if path is pubspec.yaml
+      if (path != 'pubspec.yaml') {
+        await _fileService.writeStringFile(
+          file: File('$workingDirectory/$path'),
+          fileContent: output,
+        );
+      } else {
+        await _fileService.writeStringFile(
+          file: File('$workingDirectory/$path'),
+          fileContent: output,
+          forceAppend: true,
+        );
+      }
     }
 
     _log.success(

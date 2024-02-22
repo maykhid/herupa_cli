@@ -12,6 +12,7 @@ class FolderTemplate {
       _customFeatureFolderPaths(featureName);
 
   String get lib => '$workingDirectory/lib';
+  String get assets => '$workingDirectory/assets';
   String get app => '$lib/app';
   String get core => '$lib/core';
   String get features => '$app/features';
@@ -41,10 +42,14 @@ class FolderTemplate {
   }
 
   Map<String, String> _predefinedFolderPaths(String workingDirectory) => {
+        'assets': assets,
         'app': app,
         'core': core,
         'features': features,
         'shared': shared,
+
+        'images': '$assets/images',
+        'icons': '$assets/icons',
 
         // features subfolders
         'auth': '$features/auth',
