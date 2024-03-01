@@ -843,6 +843,14 @@ class {{feature}}Screen extends StatelessWidget {
 }
 ''';
 
+const kAppRoute = '''
+GoRoute(
+      path: '/{{route}}',
+      name: '{{route}}',
+      builder: (context, state) => const {{route_pascal}}Screen(),
+    ),
+''';
+
 // const kDIContent = '''
 //         import 'package:get_it/get_it.dart';
 //         import 'package:injectable/injectable.dart';

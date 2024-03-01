@@ -36,6 +36,19 @@ class FlutterProcessService {
     );
   }
 
+  Future<void> runDartFix({
+    String? workingDirectory,
+    String? description,
+    String? organization,
+    List<String> platforms = const [],
+  }) async {
+    await _runProcess(
+      programName: 'dart',
+      arguments: ['fix', '--apply'],
+      workingDirectory: workingDirectory,
+    );
+  }
+
   /// Run the `pub run build_runner build --delete-conflicting-outputs` command in the `appName` directory
   ///
   /// Args:

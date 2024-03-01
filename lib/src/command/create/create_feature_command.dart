@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
+import 'package:herupa_cli/src/services/file_mod_service.dart';
 import 'package:herupa_cli/src/services/flutter_process_service.dart';
 import 'package:herupa_cli/src/services/log_service.dart';
 import 'package:herupa_cli/src/services/template_service.dart';
@@ -36,6 +37,7 @@ class CreateFeatureCommand extends Command<dynamic> {
     final workingDirectory =
         argResults!.rest.length > 1 ? argResults!.rest.last : null;
     final templateService = TemplateService();
+    final fileModService = FileModService();
     // print(Directory.current.path);
     // print(featureName);
     // print(workingDirectory);
@@ -44,6 +46,11 @@ class CreateFeatureCommand extends Command<dynamic> {
       workingDirectory: workingDirectory ?? Directory.current.path,
     );
 
+    await fileModService.addGoRoute(
+      routeName: featureName,
+      workingDirectory: workingDirectory ?? Directory.current.path,
+    );
+    await flutterProcess.runDartFix();
     await flutterProcess.runBuildRunner();
     await flutterProcess.runFormat();
 
