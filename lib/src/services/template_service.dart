@@ -116,7 +116,7 @@ class TemplateService {
         .entries) {
       await Directory(i.value).create(recursive: true);
       _log.herupaOutput(
-        message: '\nCreated $featureName ${i.key} folder at ${i.value}',
+        message: '\nCreated $featureName [${i.key}] folder at ${i.value}',
         isBold: true,
       );
     }

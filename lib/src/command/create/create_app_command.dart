@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:herupa_cli/src/services/flutter_process_service.dart';
@@ -86,5 +87,19 @@ class CreateAppCommand extends Command<dynamic> {
     await flutterProcess.runBuildRunner(workingDirectory: workingDirectory);
 
     await flutterProcess.runFormat(appName: workingDirectory);
+
+    stdout
+      ..writeln('Would you like to open your new flutter app?')
+      ..write('[y/n]: ');
+    final opt = stdin.readLineSync()?.toLowerCase().trim();
+
+    if (opt == 'y' || opt == 'yes') {
+      await Process.start('code', [workingDirectory]);
+    } else {
+      log.herupaOutput(
+        message:
+            '''Okay. You can find your app [$workingDirectory] in your current working directory ${Directory.current.path}''',
+      );
+    }
   }
 }
