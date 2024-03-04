@@ -69,11 +69,12 @@ class ColorizedLogService {
   ///   message (String): The message to be printed.
   void success({required String message}) {
     coloredPrint(
-        pen
-          ..green(
-            bold: true,
-          ),
-        message: message);
+      pen
+        ..green(
+          bold: true,
+        ),
+      message: message,
+    );
   }
 
   /// `warn` is a function that takes a required parameter `message` of type `String` and prints a

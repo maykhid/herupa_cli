@@ -27,7 +27,8 @@ class FileModService {
 
     // add new route import
     final lastImportIndex = lines.lastIndexWhere(
-        (line) => line.contains('''import 'package:$packageName'''));
+      (line) => line.contains('''import 'package:$packageName'''),
+    );
 
     if (routesIndex != -1) {
       // Find the end of the routes list

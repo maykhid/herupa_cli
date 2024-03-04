@@ -15,7 +15,7 @@ class FileService {
     String? verboseMessage,
     bool forceAppend = false,
   }) async {
-    if (!(await file.exists())) {
+    if (!file.existsSync()) {
       if (type != FileModificationType.create) {
         _log.warn(message: 'File does not exist. Write it out');
       }
@@ -40,7 +40,7 @@ class FileService {
     String? verboseMessage,
     bool forceAppend = false,
   }) async {
-    if (!(await file.exists())) {
+    if (!file.existsSync()) {
       if (type != FileModificationType.create) {
         _log.warn(message: 'File does not exist. Write it out');
       }
@@ -87,7 +87,8 @@ class FileService {
   }
 
   /// Check if the file at [filePath] exists
-  Future<bool> fileExists({required String filePath}) {
+  Future<bool> fileExists({required String filePath}) async {
+    // ignore: avoid_slow_async_io
     return File(filePath).exists();
   }
 
