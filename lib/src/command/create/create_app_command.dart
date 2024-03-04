@@ -23,6 +23,7 @@ class CreateAppCommand extends Command<dynamic> {
         help: 'Supported Platforms',
       );
   }
+  final log = ColorizedLogService();
 
   @override
   String get description =>
@@ -33,7 +34,6 @@ class CreateAppCommand extends Command<dynamic> {
 
   @override
   Future<void> run() async {
-    final log = ColorizedLogService();
     final workingDirectory = argResults!.rest.first;
     // final appName = workingDirectory.split('/').last;
     // final templateType = argResults!['template'];
@@ -88,18 +88,77 @@ class CreateAppCommand extends Command<dynamic> {
 
     await flutterProcess.runFormat(appName: workingDirectory);
 
-    stdout
-      ..writeln('Would you like to open your new flutter app?')
-      ..write('[y/n]: ');
-    final opt = stdin.readLineSync()?.toLowerCase().trim();
+    try {
+      if (Platform.isMacOS) {
+        stdout
+          ..writeln('Would you like to open your new flutter app?')
+          ..write('[y/n]: ');
+        final opt = stdin.readLineSync()?.toLowerCase().trim();
 
-    if (opt == 'y' || opt == 'yes') {
-      await Process.start('code', [workingDirectory]);
-    } else {
-      log.herupaOutput(
-        message:
-            '''Okay. You can find your app [$workingDirectory] in your current working directory ${Directory.current.path}''',
+        if (opt == 'y' || opt == 'yes') {
+          stdout
+            ..writeln('Launch with VSCode, Android Studio or IntelliJ...')
+            ..write('[V/A/I]: ');
+
+          final ide = stdin.readLineSync()?.toLowerCase().trim();
+
+          if (ide == 'i') {
+            await _launchProjectOnIntellij(
+              '${Directory.current.path}/$workingDirectory',
+            );
+          } else if (ide == 'a') {
+            await _launchProjectOnAndroidStudio(
+              '${Directory.current.path}/$workingDirectory',
+            );
+          } else {
+            await _launchProjectOnVscode(workingDirectory);
+          }
+        } else {
+          if (opt != 'n' && opt != 'No' && opt != 'y' && opt != 'yes') {
+            log.herupaOutput(message: 'Not a valid option.');
+          }
+          log.herupaOutput(
+            message:
+                '''Okay. You can find your app [$workingDirectory] in your current working directory ${Directory.current.path}''',
+          );
+        }
+      } else {
+        // Launching on other platforms is not supported yet.
+      }
+    } catch (e) {
+      log.error(message: e.toString());
+    }
+  }
+
+  Future<void> _launchProjectOnAndroidStudio(
+    String projectPath,
+  ) async {
+    try {
+      log.herupaOutput(message: 'Launching Android Studio...');
+      await Process.start('open', ['-a', 'Android Studio', projectPath]);
+    } catch (e) {
+      log.error(message: e.toString());
+    }
+  }
+
+  Future<void> _launchProjectOnVscode(String projectPath) async {
+    try {
+      log.herupaOutput(message: 'Launching VSCode...');
+      await Process.start('code', [projectPath]);
+    } catch (e) {
+      log.error(message: e.toString());
+    }
+  }
+
+  Future<void> _launchProjectOnIntellij(String projectPath) async {
+    try {
+      log.herupaOutput(message: 'Launching IntelliJ...');
+      await Process.start(
+        'open',
+        ['-a', 'IntelliJ IDEA', projectPath],
       );
+    } catch (e) {
+      log.error(message: e.toString());
     }
   }
 }
